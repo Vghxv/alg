@@ -134,9 +134,7 @@ Ans: T
 (4) The optimal order to multiply A_1, ... , A_5 with fewest number of scalar multiplications
 is $(A_1(A_2(A_3(A_4A_5))))$
 
-Ans: F
-
-💔Ans : T
+Ans: F (but no) Ans : T
 
 6. (10 pts, 5 pts for each)
 Consider two teams, A and B, playing a series of games until one of the teams win n games. Assume that the probability of A winning a game is the same for each game and equal to p, and let the probability of A losing a game is q = 1 - p. (Hence, there are no ties.) Let P(i, j) be the probability of A winning the series if A needs i more games to win the series and B needs j more games to win the series.
@@ -150,69 +148,69 @@ P(i, j) = p x P(i - 1, j) + q x P(i, j - 1)
 
 (b) Find the probability of team A winning a seven-game series if the probability of it
 winning a game is 0.4.
-Now, we interpret a "seven-game series" with $ p = 0.4 $. In sports, a seven-game series typically means "best-of-seven," where the first team to win 4 games wins, and the series stops there (up to 7 games maximum). The problem states "a series of games until one of the teams win $ n $ games," and for a seven-game series, $ n = 4 $ aligns with this standard interpretation (since $ 2n - 1 = 7 $ when $ n = 4 $). So, A wins if it gets 4 wins before B does.
-Initially, both teams need 4 wins:
+// Now, we interpret a "seven-game series" with $ p = 0.4 $. In sports, a seven-game series typically means "best-of-seven," where the first team to win 4 games wins, and the series stops there (up to 7 games maximum). The problem states "a series of games until one of the teams win $ n $ games," and for a seven-game series, $ n = 4 $ aligns with this standard interpretation (since $ 2n - 1 = 7 $ when $ n = 4 $). So, A wins if it gets 4 wins before B does.
+// Initially, both teams need 4 wins:
 
-A needs $ i = 4 $,
-B needs $ j = 4 $.
+// A needs $ i = 4 $,
+// B needs $ j = 4 $.
 
-We need $ P(4, 4) $, the probability A wins the series starting from this state, with $ p = 0.4 $ and $ q = 1 - 0.4 = 0.6 $.
-Using the recurrence from part (a):
+// We need $ P(4, 4) $, the probability A wins the series starting from this state, with $ p = 0.4 $ and $ q = 1 - 0.4 = 0.6 $.
+// Using the recurrence from part (a):
 
-$ P(i, j) = 0.4 \cdot P(i - 1, j) + 0.6 \cdot P(i, j - 1) $ for $ i, j > 0 $,
-$ P(0, j) = 1 $ for $ j = 1, 2, 3, 4 $,
-$ P(i, 0) = 0 $ for $ i = 1, 2, 3, 4 $.
+// $ P(i, j) = 0.4 \cdot P(i - 1, j) + 0.6 \cdot P(i, j - 1) $ for $ i, j > 0 $,
+// $ P(0, j) = 1 $ for $ j = 1, 2, 3, 4 $,
+// $ P(i, 0) = 0 $ for $ i = 1, 2, 3, 4 $.
 
-Let's compute $ P(i, j) $ systematically using a dynamic programming approach. Define a table where rows are $ i $ (A's wins needed) from 0 to 4, and columns are $ j $ (B's wins needed) from 0 to 4.
-Step 1: Base Cases
+// Let's compute $ P(i, j) $ systematically using a dynamic programming approach. Define a table where rows are $ i $ (A's wins needed) from 0 to 4, and columns are $ j $ (B's wins needed) from 0 to 4.
+// Step 1: Base Cases
 
-$ i = 0 $: $ P(0, 1) = 1 $, $ P(0, 2) = 1 $, $ P(0, 3) = 1 $, $ P(0, 4) = 1 $,
-$ j = 0 $: $ P(1, 0) = 0 $, $ P(2, 0) = 0 $, $ P(3, 0) = 0 $, $ P(4, 0) = 0 $.
+// $ i = 0 $: $ P(0, 1) = 1 $, $ P(0, 2) = 1 $, $ P(0, 3) = 1 $, $ P(0, 4) = 1 $,
+// $ j = 0 $: $ P(1, 0) = 0 $, $ P(2, 0) = 0 $, $ P(3, 0) = 0 $, $ P(4, 0) = 0 $.
 
-Step 2: Fill the Table
-Use fractions with $ p =2/5 $, $ q = 3/5 $ for exactness.
+// Step 2: Fill the Table
+// Use fractions with $ p =2/5 $, $ q = 3/5 $ for exactness.
 
-$ i = 1 $:
+// $ i = 1 $:
 
-$ P(1, 1) = {2}{5} \cdot P(0, 1) + {3}{5} \cdot P(1, 0) = {2}{5} \cdot 1 + {3}{5} \cdot 0 = {2}{5} $,
-$ P(1, 2) = {2}{5} \cdot 1 + {3}{5} \cdot {2}{5} = {2}{5} + {6}{25} = {10}{25} + {6}{25} = {16}{25} $,
-$ P(1, 3) = {2}{5} \cdot 1 + {3}{5} \cdot {16}{25} = {2}{5} + {48}{125} = {50}{125} + {48}{125} = {98}{125} $,
-$ P(1, 4) = {2}{5} \cdot 1 + {3}{5} \cdot {98}{125} = {2}{5} + {294}{625} = {250}{625} + {294}{625} = {544}{625} $.
-
-
-$ i = 2 $:
-
-$ P(2, 1) = {2}{5} \cdot {2}{5} + {3}{5} \cdot 0 = {4}{25} $,
-$ P(2, 2) = {2}{5} \cdot {16}{25} + {3}{5} \cdot {4}{25} = {32}{125} + {12}{125} = {44}{125} $,
-$ P(2, 3) = {2}{5} \cdot {98}{125} + {3}{5} \cdot {44}{125} = {196}{625} + {132}{625} = {328}{625} $,
-$ P(2, 4) = {2}{5} \cdot {544}{625} + {3}{5} \cdot {328}{625} = {1088}{3125} + {984}{3125} = {2072}{3125} $.
+// $ P(1, 1) = {2}{5} \cdot P(0, 1) + {3}{5} \cdot P(1, 0) = {2}{5} \cdot 1 + {3}{5} \cdot 0 = {2}{5} $,
+// $ P(1, 2) = {2}{5} \cdot 1 + {3}{5} \cdot {2}{5} = {2}{5} + {6}{25} = {10}{25} + {6}{25} = {16}{25} $,
+// $ P(1, 3) = {2}{5} \cdot 1 + {3}{5} \cdot {16}{25} = {2}{5} + {48}{125} = {50}{125} + {48}{125} = {98}{125} $,
+// $ P(1, 4) = {2}{5} \cdot 1 + {3}{5} \cdot {98}{125} = {2}{5} + {294}{625} = {250}{625} + {294}{625} = {544}{625} $.
 
 
-$ i = 3 $:
+// $ i = 2 $:
 
-$ P(3, 1) = {2}{5} \cdot {4}{25} + {3}{5} \cdot 0 = {8}{125} $,
-$ P(3, 2) = {2}{5} \cdot {44}{125} + {3}{5} \cdot {8}{125} = {88}{625} + {24}{625} = {112}{625} $,
-$ P(3, 3) = {2}{5} \cdot {328}{625} + {3}{5} \cdot {112}{625} = {656}{3125} + {336}{3125} = {992}{3125} $,
-$ P(3, 4) = {2}{5} \cdot {2072}{3125} + {3}{5} \cdot {992}{3125} = {4144}{15625} + {2976}{15625} = {7120}{15625} $.
-
-
-$ i = 4 $:
-
-$ P(4, 1) = {2}{5} \cdot {8}{125} + {3}{5} \cdot 0 = {16}{625} $,
-$ P(4, 2) = {2}{5} \cdot {112}{625} + {3}{5} \cdot {16}{625} = {224}{3125} + {48}{3125} = {272}{3125} $,
-$ P(4, 3) = {2}{5} \cdot {992}{3125} + {3}{5} \cdot {272}{3125} = {1984}{15625} + {816}{15625} = {2800}{15625} $,
-$ P(4, 4) = {2}{5} \cdot {7120}{15625} + {3}{5} \cdot {2800}{15625} = {14240}{78125} + {8400}{78125} = {22640}{78125} $.
+// $ P(2, 1) = {2}{5} \cdot {2}{5} + {3}{5} \cdot 0 = {4}{25} $,
+// $ P(2, 2) = {2}{5} \cdot {16}{25} + {3}{5} \cdot {4}{25} = {32}{125} + {12}{125} = {44}{125} $,
+// $ P(2, 3) = {2}{5} \cdot {98}{125} + {3}{5} \cdot {44}{125} = {196}{625} + {132}{625} = {328}{625} $,
+// $ P(2, 4) = {2}{5} \cdot {544}{625} + {3}{5} \cdot {328}{625} = {1088}{3125} + {984}{3125} = {2072}{3125} $.
 
 
+// $ i = 3 $:
 
-Step 3: Simplify and Verify
-Check $ {22640}{78125} $:
+// $ P(3, 1) = {2}{5} \cdot {4}{25} + {3}{5} \cdot 0 = {8}{125} $,
+// $ P(3, 2) = {2}{5} \cdot {44}{125} + {3}{5} \cdot {8}{125} = {88}{625} + {24}{625} = {112}{625} $,
+// $ P(3, 3) = {2}{5} \cdot {328}{625} + {3}{5} \cdot {112}{625} = {656}{3125} + {336}{3125} = {992}{3125} $,
+// $ P(3, 4) = {2}{5} \cdot {2072}{3125} + {3}{5} \cdot {992}{3125} = {4144}{15625} + {2976}{15625} = {7120}{15625} $.
 
-$ 78125 = 5^7 $ (since $ 5^6 = 15625 $, $ 5^7 = 78125 $),
-$ 22640 / 5 = 4528 $, $ 78125 / 5 = 15625 $,
-$ 4528 = 2^4 \cdot 283 $ (283 is prime), $ 15625 = 5^6 $,
-GCD(4528, 15625) = 1, so $ {4528}{15625} $ is in simplest form.
 
-Thus, $ {22640}{78125} = {4528}{15625} $ after dividing by 5. Decimal check: $ 4528 / 15625 approx 0.289792 $, consistent with computations.
-So, the probability of team A winning the seven-game series is:
-$ {4528}{15625} $
+// $ i = 4 $:
+
+// $ P(4, 1) = {2}{5} \cdot {8}{125} + {3}{5} \cdot 0 = {16}{625} $,
+// $ P(4, 2) = {2}{5} \cdot {112}{625} + {3}{5} \cdot {16}{625} = {224}{3125} + {48}{3125} = {272}{3125} $,
+// $ P(4, 3) = {2}{5} \cdot {992}{3125} + {3}{5} \cdot {272}{3125} = {1984}{15625} + {816}{15625} = {2800}{15625} $,
+// $ P(4, 4) = {2}{5} \cdot {7120}{15625} + {3}{5} \cdot {2800}{15625} = {14240}{78125} + {8400}{78125} = {22640}{78125} $.
+
+
+
+// Step 3: Simplify and Verify
+// Check $ {22640}{78125} $:
+
+// $ 78125 = 5^7 $ (since $ 5^6 = 15625 $, $ 5^7 = 78125 $),
+// $ 22640 / 5 = 4528 $, $ 78125 / 5 = 15625 $,
+// $ 4528 = 2^4 \cdot 283 $ (283 is prime), $ 15625 = 5^6 $,
+// GCD(4528, 15625) = 1, so $ {4528}{15625} $ is in simplest form.
+
+// Thus, $ {22640}{78125} = {4528}{15625} $ after dividing by 5. Decimal check: $ 4528 / 15625 approx 0.289792 $, consistent with computations.
+// So, the probability of team A winning the seven-game series is:
+// $ {4528}{15625} $
